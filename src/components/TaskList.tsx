@@ -17,31 +17,33 @@ export function TaskList() {
   const [newTaskTitle, setNewTaskTitle] = useState('');
 
   function handleCreateNewTask() {
-    if (!newTaskTitle) {
-      alert('Por favor adicione um novo todo');
-      return; 
-    };
+    if (!newTaskTitle) return;
 
     const task = {
       id: Math.random(),
       title: newTaskTitle,
       isComplete: false
-    };
-    setTasks((prevState) => [task, ...prevState]);
+    }
+
+    setTasks(oldState => [...oldState, task]);
     setNewTaskTitle('');
-  };
+  }
 
   function handleToggleTaskCompletion(id: number) {
-    const checkedTasks = tasks.map(task =>
-      task.id === id ? {...task, isComplete: !task.isComplete} : task
-    );
-    setTasks(checkedTasks);
-  };
+    const taskChecked = tasks.map(task => task.id === id ? {
+      ...task,
+      isComplete: !task.isComplete
+    } : task);
+
+    setTasks(taskChecked)
+  }
 
   function handleRemoveTask(id: number) {
     const removedTasks = tasks.filter(task => task.id !== id);
-    setTasks(removedTasks);
-  };
+
+    setTasks(removedTasks)
+
+  }
 
   return (
     <section className="task-list container">
